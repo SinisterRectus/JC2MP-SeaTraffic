@@ -27,6 +27,10 @@ function SeaTrafficManager:ModuleLoad()
 		self:SpawnRandomNPC()
 	end
 	
+	for _, node in ipairs(self.map.nodes) do
+		node.occupied = nil
+	end
+	
 	self.co = coroutine.create(function()
 		while true do
 			for _, npc in pairs(self.npcs) do
@@ -59,7 +63,8 @@ function SeaTrafficManager:SpawnRandomNPC()
 	SeaTrafficNPC({
 		model_id = table.randomvalue(settings.pool),
 		position = node[1],
-		angle = Angle(math.atan2(-direction.x, -direction.z), 0, 0)
+		angle = Angle(math.atan2(-direction.x, -direction.z), 0, 0),
+		node = node
 	})
 
 end
