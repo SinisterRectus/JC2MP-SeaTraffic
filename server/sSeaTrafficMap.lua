@@ -195,37 +195,10 @@ function SeaTrafficMap:GetRandomPath(position, direction)
 
 end
 
-function SeaTrafficMap:GetBezier(path)
-	
-	local bezier = {positions = {}, angles = {}}
-	
-	local p1 = path[1][1]
-	local p2 = path[2][1]
-	local p3 = path[4][1] - 2 * (path[4][1] - path[3][1])
-	local p4 = path[3][1]
-	
-	local function Interpolate(p1, p2, p3, p4, t) -- move to global function?
-		local position = (1 - t)^3 * p1 + 3 * (1 - t)^2 * t * p2 + 3 * (1 - t) * t^2 * p3 + t^3 * p4
-		local derivative = 3 * (1 - t)^2 * (p2 - p1) + 6 * (1 - t) * t * (p3 - p2) + 3 * t^2 * (p4 - p3)
-		return position, derivative:Normalized()
-	end
-
-	local h = 0.1
-	for t = 0, 1 / h do
-		local position, direction = Interpolate(p1, p2, p3, p4, t * h)
-		table.insert(bezier.positions, position) -- can just store the x and z
-		table.insert(bezier.angles, Angle(math.atan2(-direction.x, -direction.z), 0, 0))
-	end
-	
-	return bezier
-
-end
-
 function SeaTrafficMap:GetNearestNode(position)
 
 	local nearest_distance, nearest_node = math.huge
-	local cell = self:GetCell(position.x, position.z)
-	-- can use GetNearestCell, but requires careful selection of cell size
+	local cell = self:GetCell(position.x, position.z) or self:GetNearestCell(position)
 	
 	for x, v in pairs(cell) do
 		for z, node in pairs(v) do
