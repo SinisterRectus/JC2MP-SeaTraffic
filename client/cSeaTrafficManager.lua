@@ -62,7 +62,7 @@ function SeaTrafficManager:ValueChange(args)
 	elseif args.key == "STPath" then
 		npc.path = args.value
 		npc.distance = npc.path[1]:Distance(npc.path[3])
-		npc.distance = npc.distance == 0 and 2 * self.map.h or npc.distance -- need map h on client
+		npc.distance = npc.distance == 0 and 2 * self.map.h or npc.distance
 	end
 	
 end
