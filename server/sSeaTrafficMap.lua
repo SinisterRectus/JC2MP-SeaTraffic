@@ -180,11 +180,10 @@ function SeaTrafficMap:__init(data, cell_size)
 
 end
 
-function SeaTrafficMap:GetRandomPath(position, direction)
+function SeaTrafficMap:GetRandomPath(node, direction)
 
-	local path = {}
+	local path = {node}
 
-	path[1] = self:GetNearestNode(position)
 	path[2] = self:GetNextNode(path[1], direction)
 	path[3] = self:GetNextNode(path[2], path[2][1] - path[1][1])
 	path[4] = self:GetNextNode(path[3], path[3][1] - path[2][1])
