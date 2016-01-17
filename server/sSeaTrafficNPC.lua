@@ -7,17 +7,17 @@ function SeaTrafficNPC:__init(args)
 	SeaTrafficManager.npcs[self.vehicle:GetId()] = self
 	SeaTrafficManager.count = SeaTrafficManager.count + 1
 
-	local path = SeaTrafficManager.map:GetRandomPath(args.position, args.angle * Vector3.Forward)
+	local path = SeaTrafficManager.map:GetRandomPath(args.node, args.angle * Vector3.Forward)
 
-	local tbl = {}
+	local path_positions = {}
 	for _, node in ipairs(path) do
-		table.insert(tbl, node[1])
+		table.insert(path_positions, node[1])
 	end
 	
 	self.t = 0
 	
 	self.vehicle:SetNetworkValue("STT", self.t)
-	self.vehicle:SetNetworkValue("STPath", tbl)
+	self.vehicle:SetNetworkValue("STPath", path_positions)
 
 	self.distance = path[1][1]:Distance(path[3][1])
 	self.distance = self.distance == 0 and 2 * SeaTrafficManager.map.h or self.distance	
@@ -48,7 +48,7 @@ function SeaTrafficNPC:Tick()
 		path[5] = SeaTrafficManager.map:GetNextNode(path[4], path[4][1] - path[3][1])
 		path[6] = SeaTrafficManager.map:GetNextNode(path[5], path[5][1] - path[4][1])
 		self.distance = path[1][1]:Distance(path[3][1])
-		self.distance = self.distance == 0 and 2 * SeaTrafficManager.map.h or self.distance	
+		self.distance = self.distance == 0 and 2 * SeaTrafficManager.map.h or self.distance
 
 		path_update = true
 		
