@@ -4,7 +4,6 @@ function SeaTrafficMap:__init(data, cell_size)
 
 	local h = data.h
 	local graph = {}
-	local nodes = {}
 	
 	local function GetCellXY(x, z)
 
@@ -21,13 +20,11 @@ function SeaTrafficMap:__init(data, cell_size)
 	
 	local function AddNode(x, z)
 
-		local node = {Vector3(x, 200, z), {}} -- change to Vector2?
 		local cell_x, cell_y = GetCellXY(x, z)
 		graph[cell_x] = graph[cell_x] or {}
 		graph[cell_x][cell_y] = graph[cell_x][cell_y] or {}
 		graph[cell_x][cell_y][x] = graph[cell_x][cell_y][x] or {}
-		graph[cell_x][cell_y][x][z] = node
-		table.insert(nodes, node)
+		graph[cell_x][cell_y][x][z] = {Vector3(x, 200, z), {}}
 
 	end
 	
@@ -162,7 +159,7 @@ function SeaTrafficMap:__init(data, cell_size)
 	until #deletions == 0
 	
 	-- add all node references to one array
-	nodes = {}
+	local nodes = {}
 	for cell_x, v in pairs(graph) do
 		for cell_y, v in pairs(v) do
 			for x, v in pairs(v) do
