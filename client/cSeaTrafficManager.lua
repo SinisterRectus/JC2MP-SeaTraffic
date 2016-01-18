@@ -55,7 +55,7 @@ function SeaTrafficManager:ValueChange(args)
 	if args.key == "STT" then
 		if args.value then
 			npc.network_t = args.value
-			npc.t = args.value
+			npc.predicted_t = args.value
 		else
 			npc:Remove()
 		end
