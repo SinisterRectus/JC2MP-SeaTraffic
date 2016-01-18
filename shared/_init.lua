@@ -1,7 +1,7 @@
 settings = {
 	debug = false,
 	delay = 3, -- server update interval in seconds
-	count = 1024, -- number of planes to initially spawn
+	count = 1024, -- number of boats to initially spawn
 	speeds = { -- Boat top speeds (defaults in parentheses)
 		[5] = 17, -- Pattani Gluay (17)
 		[6] = 9, -- Orque Grandois 21TT (9)
